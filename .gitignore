@@ -1,0 +1,71 @@
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+
+#vagrant folder
+/.vagrant
+
+
+
+# =====================================
+# CONFIGURACION LOCAL Y CREDENCIALES
+# =====================================
+/config/db.php
+/config/db-local.php
+/.env
+/.env.*
+!/.env.example
+
+# =====================================
+# ARCHIVOS TEMPORALES DE YII2
+# =====================================
+/runtime/*
+!/runtime/.gitignore
+
+/web/assets/*
+!/web/assets/.gitignore
+
+# =====================================
+# ARCHIVOS SQL Y RESPALDOS
+# =====================================
+*.sql
+*.dump
+*.backup
+*.bak
+
+# =====================================
+# ARCHIVOS DE LOG
+# =====================================
+*.log
+
+# =====================================
+# ARCHIVOS LOCALES DE DOCKER
+# =====================================
+/docker-compose.override.yml
