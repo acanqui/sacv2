@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = 'Búsqueda por CITE';
 
 
                 // With a model and without ActiveForm
-                echo Select2::widget([
+               /* echo Select2::widget([
                     'name' => 'gestion',
                     'attribute' => 'gestion',
                     'data' => Documentos::getGestion(),
@@ -58,9 +58,9 @@ $this->params['breadcrumbs'][] = 'Búsqueda por CITE';
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
-                ]);
+                ]);*/
             ?>
-            <br>
+
 
             <?=Html::submitButton('<i class="fa fa-search"></i> BUSCAR', ['class' => 'btn btn-primary']); ?>
             <?=Html::a("<i class='glyphicon glyphicon-ban-circle'></i> <span style='font-size:9pt;'> Cancelar</span>", ['site/menubusqueda'], ['class' => 'btn btn-danger' ]); ?>
@@ -86,7 +86,8 @@ $this->params['breadcrumbs'][] = 'Búsqueda por CITE';
 
 
 
-if($palabra!="NULL" && $gestion!="NULL"){
+if($palabra!="NULL"){
+//if($palabra!="NULL" && $gestion!="NULL"){
 
 //echo " palabra --------------> ".$palabra;
 //echo "<br> gestion --------------> ".$gestion;    
@@ -95,7 +96,7 @@ if($palabra!="NULL" && $gestion!="NULL"){
 
       $connection= Yii::$app->db;
     
-      $command=$connection->createCommand("
+      /*$command=$connection->createCommand("
 
          SELECT 
           COALESCE(NULLIF((select h.nur from hojas_ruta h where h.fk_documento=d.id_documento and h.activo=1 order by h.id_hoja_ruta asc limit 1 ),''),'S/N') as nuri,
@@ -107,6 +108,41 @@ if($palabra!="NULL" && $gestion!="NULL"){
           fecha
           FROM documentos d
           WHERE d.activo=1 and upper(codigo) like'%$palabra%' AND gestion=$gestion ORDER BY d.fecha ASC
+         ");*/
+
+      $command=$connection->createCommand("
+
+         WITH docs_filtrados AS (
+            SELECT 
+                d.id_documento,
+                d.codigo AS cite,
+                d.remitente_nombres AS nombre_remitente,
+                d.remitente_cargo AS cargo_remitente,
+                d.remitente_institucion,
+                d.referencia,
+                d.fecha
+            FROM documentos d
+            WHERE d.activo = 1 
+              AND d.codigo ILIKE '%$palabra%'
+        )
+        SELECT 
+            COALESCE(NULLIF(hr.nur, ''), 'S/N') AS nuri,
+            df.cite,
+            df.nombre_remitente,
+            df.cargo_remitente,
+            df.remitente_institucion,
+            df.referencia,
+            TO_CHAR(df.fecha, 'DD/MM/YYYY') AS fecha
+        FROM docs_filtrados df
+        LEFT JOIN (
+            SELECT DISTINCT ON (fk_documento) fk_documento, nur
+            FROM hojas_ruta
+            WHERE activo = 1
+            ORDER BY fk_documento, id_hoja_ruta ASC
+        ) hr ON hr.fk_documento = df.id_documento
+        ORDER BY df.fecha ASC;
+
+
          ");
 
       $dataReader=$command->query();
@@ -163,7 +199,8 @@ if($palabra!="NULL" && $gestion!="NULL"){
 
         <div class="container-fluid" style="width: 100%;">
               <table class="datatable table table-hover table-bordered table-striped" style="width:100%;" >
-                  <caption class="text-center">Resultados encontrados con la referencia: <b><?=$palabra?></b> y gesti&oacute;n <b><?=$gestion?></b></caption>
+<!--                  <caption class="text-center">Resultados encontrados con la referencia: <b>--><?php //=$palabra?><!--</b> y gesti&oacute;n <b>--><?php //=$gestion?><!--</b></caption>-->
+                  <caption class="text-center">Resultados encontrados con la referencia: <b><?=$palabra?></b> </caption>
               <thead>
                   <tr style="background-color: #B8C7CD;">
 
@@ -210,13 +247,14 @@ if($palabra!="NULL" && $gestion!="NULL"){
                         <td style="vertical-align: middle;"><?=$row['nombre_remitente']?> <br><b><?=$row['cargo_remitente']?></b></td>
                         <td style="vertical-align: middle;">
                             <?php 
-                                    echo Html :: a ('
+                                    echo $row['nuri']!='S/N' ? Html :: a ('
                                                 <span class="btn btn-primary" style="font-size:10pt;">
                                                 <span class="fa fa-paw"></span> Seguimiento</span>'
                                                 , ['seguimientos/seguimientonuri', 'nuri'=>$row['nuri']], [
                                                         'class' => 'data-update',
                                                         'target'=>'_blank'
-                            ]); ?>
+                                         ])  : '';
+                            ?>
                         </td>
                     </tr>
                 <?php } ?>    

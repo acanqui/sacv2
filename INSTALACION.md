@@ -8,13 +8,17 @@ El sistema permite gestionar documentos, hojas de ruta, derivaciones, usuarios y
 
 ### 2. Tecnologías utilizadas
 
-| **Tecnología / Herramienta** | **Versión / Descripción**    |
-|:-----------------------------|:-----------------------------|
-| **PHP**                      | 7.4.33                    |
-| **Yii Framework**            | Yii2                         |
-| **PostgreSQL**               | 17                           |
-| **Docker**                   | Contenedores para desarrollo |
-| **Apache**                   | Apache/2.4.54
+| **Tecnología / Herramienta**                 | **Versión / Descripción**    |
+|:---------------------------------------------|:-----------------------------|
+| **PHP**                                      | 7.4.33                       |
+| **Yii Framework**                            | Yii2 -> 2.0.14               |
+| **PostgreSQL**                               | 17                           |
+| **Docker**                                   | Contenedores para desarrollo |
+| **Apache**                                   | Apache/2.4.54                |
+| **Directorio de trabajo**                    | /var/www/html                |
+| **Extensión PostgreSQL**                     | pdo_pgsql y pgsql            |
+| **Composer**                     | Dependencias declaradas en composer.json            |
+
 
 
 ### 3. Requisitos previos

@@ -95,7 +95,7 @@ if($palabra!="NULL" && $gestion!="NULL"){
     
       $connection= Yii::$app->db;
     
-      $command=$connection->createCommand("
+      /*$command=$connection->createCommand("
 
          SELECT 
           COALESCE(NULLIF((select h.nur from hojas_ruta h where h.fk_documento=d.id_documento and h.activo=1 order by h.id_hoja_ruta asc limit 1 ),''),'S/N') as nuri,
@@ -108,6 +108,43 @@ if($palabra!="NULL" && $gestion!="NULL"){
           contenido
           FROM documentos d
           WHERE d.activo=1 and upper(contenido) like'%$palabra%' AND gestion=$gestion AND fk_tipo_documento=7 ORDER BY d.fecha ASC
+         "); */
+
+      $command=$connection->createCommand("
+
+         WITH docs_filtrados AS (
+                SELECT 
+                    d.id_documento,
+                    d.codigo AS cite,
+                    d.remitente_nombres AS nombre_remitente,
+                    d.remitente_cargo AS cargo_remitente,
+                    d.remitente_institucion,
+                    d.referencia,
+                    d.fecha,
+                    d.contenido
+                FROM documentos d
+                WHERE d.activo = 1 
+                  AND d.gestion = $gestion
+                  AND d.fk_tipo_documento = 7
+                  AND d.contenido ILIKE '%solicitud%' -- '%$palabra%'
+            )
+            SELECT 
+                COALESCE(NULLIF(hr.nur, ''), 'S/N') AS nuri,
+                df.cite,
+                df.nombre_remitente,
+                df.cargo_remitente,
+                df.remitente_institucion,
+                df.referencia,
+                TO_CHAR(df.fecha, 'DD/MM/YYYY') AS fecha,
+                df.contenido
+            FROM docs_filtrados df
+            LEFT JOIN (
+                SELECT DISTINCT ON (fk_documento) fk_documento, nur
+                FROM hojas_ruta
+                WHERE activo = 1
+                ORDER BY fk_documento, id_hoja_ruta ASC
+            ) hr ON hr.fk_documento = df.id_documento
+            ORDER BY df.fecha ASC;
          ");
 
       $dataReader=$command->query();
@@ -217,13 +254,14 @@ if($palabra!="NULL" && $gestion!="NULL"){
                         <td style="vertical-align: middle;"><?=$row['remitente_institucion']?></td>
                         <td style="vertical-align: middle;">
                             <?php 
-                                    echo Html :: a ('
+                                    echo $row['nuri']!='S/N' ?   Html :: a ('
                                                 <span class="btn btn-primary" style="font-size:10pt;">
                                                 <span class="fa fa-paw"></span> Seguimiento</span>'
                                                 , ['seguimientos/seguimientonuri', 'nuri'=>$row['nuri']], [
                                                         'class' => 'data-update',
                                                         'target'=>'_blank'
-                            ]); ?>
+                                    ])   : '';
+                            ?>
                         </td>
                     </tr>
                 <?php } ?>    
