@@ -114,7 +114,8 @@ $this->registerJs($script);
                            
                            <?php // Seguimientos::countQueDebenLlegar(1,Yii::app()->user->id_usuario)+Seguimientos::countQueDebenLlegar(0,Yii::app()->user->id_usuario)?>
                       </h5>
-                      <h6 class="mes"><i class="glyphicon glyphicon-cloud-download fa-1x"></i> Que deben llegar</h6>
+<!--                      <h6 class="mes"><i class="glyphicon glyphicon-cloud-download fa-1x"></i> Que deben llegar</h6>-->
+                      <h6 class="mes"><i class="glyphicon glyphicon-cloud-download fa-1x"></i> <span style="font-size: 10pt;">Bandeja de Entrada</span></h6>
                       <!--<ul class="lista">
                         <li class="sublista"><i class="fa fa-eye fa-2x"></i></li>
                         <li class="sublista"><i class="fa fa-heart-o fa-2x"></i></li>
@@ -137,7 +138,8 @@ $this->registerJs($script);
                               <?php //=Seguimientos::countPendientes(1,1,Yii::app()->user->id_usuario)?> 
                           </h5>
                           <h6 class="mes">
-                                <i class="glyphicon glyphicon-inbox fa-1x"></i> Pendientes Oficiales</h6>
+<!--                                <i class="glyphicon glyphicon-inbox fa-1x"></i> Pendientes Oficiales</h6>-->
+                                <i class="glyphicon glyphicon-inbox fa-1x"></i> <span style="font-size: 10pt;"> Pendientes Originales </span></h6>
                           <!--<ul class="lista">
                             <li class="sublista"><i class="fa fa-eye fa-2x"></i></li>
                             <li class="sublista"><i class="fa fa-heart-o fa-2x"></i></li>
@@ -158,7 +160,8 @@ $this->registerJs($script);
                           <h5 class="numero">
                              <?=Seguimientos::countPendientes(0,2,Yii::$app->user->identity->id_usuario)?>  
                           </h5>
-                          <h6 class="mes"><i class="fa fa-copy fa-1x"></i> Copias Pendientes</h6>
+                    <h6 class="mes"><i class="fa fa-copy fa-1x"></i> <span style="font-size: 10pt;"> Copias Pendientes </span></h6>
+<!--                          <h6 class="mes"><i class="fa fa-copy fa-1x"></i> Copias Pendientes</h6>-->
                           <!--<ul class="lista">
                             <li class="sublista"><i class="fa fa-eye fa-2x"></i></li>
                             <li class="sublista"><i class="fa fa-heart-o fa-2x"></i></li>

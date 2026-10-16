@@ -32,7 +32,7 @@ else{
 
 <table width="80%" align="center" cellspacing="10px" cellpadding="5" border="0" style="font-size: 14px;" class="table table-bordered table-hover" >
 	<tr>
-		<th colspan="2" style="text-align: center; font-size: 18px;" > <u>DOCUMENTO ARCHIVADO</u></th>
+		<th colspan="2" style="text-align: center; font-size: 18px;" > <u>HOJA DE RUTA ARCHIVADA</u></th>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -44,7 +44,7 @@ else{
 
 	
 	<tr style="border-bottom: 1px solid white; ">
-		<th style="color: white; background:#086A87; text-align:right; font-size:17px;">NUR/NURI:</th>
+		<th style="color: white; background:#086A87; text-align:right; font-size:17px;">Hoja de ruta:</th>
 		<td style="background:#E6E6E6; font-size:17px;"><b><?=$row['nuri']?></b></td>
 	</tr>
 	<tr style="border-bottom: 1px solid white;">
