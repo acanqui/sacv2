@@ -18,7 +18,7 @@ use yii\helpers\Html;
 </center>
 	<table align="center" class="tabla_agrupacion" width="95%" cellspacing="0" cellpadding="3">
 		<tr style="background-color: #FBFBFB; color: #2E2E2F;">
-			<th style="font-size:9pt; padding:5px; text-align: center;">NUR/NURI</th>
+			<th style="font-size:8pt; padding:5px; text-align: center;">HOJA DE RUTA</th>
 			<th style="font-size:9pt; padding:5px; text-align: center;">REFERENCIA</th>
 			<!--<th style="font-size:12px;"></th>-->
 		</tr>
@@ -47,7 +47,7 @@ use yii\helpers\Html;
 </center>
 	<table align="center" class="tabla_agrupacion" width="95%" cellspacing="0" cellpadding="3">
 		<tr style="background-color: #FBFBFB; color: #2E2E2F;">
-			<th style="font-size:9pt; padding:5px; text-align: center;">NUR/NURI</th>
+			<th style="font-size:8pt; padding:5px; text-align: center;">HOJA DE RUTA</th>
 			<th style="font-size:9pt; padding:5px; text-align: center;">REFERENCIA</th>
 			<!--<th style="font-size:12px;"></th>-->
 		</tr>

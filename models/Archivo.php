@@ -63,7 +63,7 @@ class Archivo extends \yii\db\ActiveRecord
     {
         return [
             'id_archivo' => 'Id Archivo',
-            'nuri' => 'NUR/NURI',
+            'nuri' => 'Hoja de Ruta',
             'acciones' => 'Acciones',
             'nombre_carpeta' => 'Nombre Carpeta',
             'fecha_archivo' => 'Fecha Archivo',
@@ -143,7 +143,8 @@ class Archivo extends \yii\db\ActiveRecord
         $fin=date('Y-12-31');
         
 	$usuario=Yii::$app->user->identity->id_usuario;
-        $command=Yii::$app->db->createCommand("SELECT * FROM carpetaarchivo WHERE  activo=1 AND fk_usuario=$usuario ORDER BY id_carpeta_archivo");
+        //$command=Yii::$app->db->createCommand("SELECT c.*,  FROM carpetaarchivo c WHERE  c.activo=1 AND c.fk_usuario=$usuario ORDER BY c.id_carpeta_archivo DESC");
+        $command=Yii::$app->db->createCommand("SELECT c.*, EXTRACT(YEAR FROM fecha_registro) gestion FROM carpetaarchivo c WHERE  c.activo=1 AND c.fk_usuario=$usuario ORDER BY c.id_carpeta_archivo DESC");
         $dataReader=$command->query();
         return $dataReader;
 

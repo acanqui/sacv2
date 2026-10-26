@@ -18,19 +18,19 @@ use app\models\Archivo;
 <?php
 //$this->title = 'Create Archivo';
 $this->params['breadcrumbs'][] = ['label' => 'Archivos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Archivar NUR/NURI '. $seguimientos->codigo;
+$this->params['breadcrumbs'][] = 'Archivar Hoja de Ruta '. $seguimientos->codigo;
 ?>
 
 <div class="row">
     <div class="col-md-8">
         <div class="card-body">
           <h5 style="color:#0B4C5F;" ><i class="fa fa-archive" style="font-size:25pt;" ></i>&nbsp;&nbsp;&nbsp;
-              <b><u style="font-size: 18pt;">Archivar tr&aacute;mite <?=$seguimientos->codigo?></u></b><br><br><br>
+              <b><u style="font-size: 18pt;">Archivar tr&aacute;mite <?=$seguimientos->codigo?></u></b>
               
-              <?php $carpetas = Carpetaarchivo::findOne($id_carpeta);     ?>
-              <center>
-                <b><span style="font-size: 15pt;">Carpeta: <?=$carpetas->nombre_carpeta?></span></b>
-              </center>
+              <?php //$carpetas = Carpetaarchivo::findOne($id_carpeta);     ?>
+<!--              <center>-->
+<!--                <b><span style="font-size: 15pt;">Carpeta: --><?php ////=$carpetas->nombre_carpeta?><!--</span></b>-->
+<!--              </center>-->
           </h5>
         </div>
     </div>
@@ -45,15 +45,39 @@ $this->params['breadcrumbs'][] = 'Archivar NUR/NURI '. $seguimientos->codigo;
             <?php $form = ActiveForm::begin(); ?>
 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? "<span class='glyphicon glyphicon-floppy-disk'></span> Archivar NUR/NURI" : "<span class='glyphicon glyphicon-floppy-disk'></span> Modificar Archivo", ['class' => 'btn btn-primary', 'id'=>'mybotonsave2' ]) ?>
+                <?= Html::submitButton($model->isNewRecord ? "<span class='glyphicon glyphicon-floppy-disk'></span> Archivar Hoja de Ruta" : "<span class='glyphicon glyphicon-floppy-disk'></span> Modificar Archivo", ['class' => 'btn btn-primary', 'id'=>'mybotonsave2' ]) ?>
                 <?=Html::a("<i class='glyphicon glyphicon-ban-circle'></i> <span style='font-size:9pt;'> Cancelar</span>", ['seguimientos/pendientesoficiales'], ['class' => 'btn btn-danger']); ?>
             </div>
+
+            <?= $form->field($model, 'fk_carpeta_archivo')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(
+                            Carpetaarchivo::find()
+                                    ->select([
+                                            'id_carpeta_archivo',
+                                            new \yii\db\Expression("nombre_carpeta || ' - ( Gestión: ' || EXTRACT(YEAR FROM fecha_registro) || ' )' AS nombre_carpeta"),
+                                        // Extraemos la gestión para usarla como grupo
+                                            new \yii\db\Expression("'Gestión: ' || EXTRACT(YEAR FROM fecha_registro)::text AS gestion")
+                                    ])
+                                    ->where(['activo' => 1, 'fk_usuario' => $id_usuario,])
+                                    ->orderBy(['fecha_registro' => SORT_DESC])
+                                    ->asArray() // <-- ¡Agrega esto para que el agrupamiento funcione con columnas personalizadas!
+                                    ->all(),
+                            'id_carpeta_archivo',
+                            'nombre_carpeta',
+                            'gestion' // <-- Este cuarto parámetro agrupa automáticamente por el campo 'gestion'
+                    ),
+                    'language' => 'es',
+                    'options' => ['placeholder' => 'Seleccione Carpeta para archivo'],
+                    'pluginOptions' => [
+                            'allowClear' => true
+                    ],
+            ])->label('Carpeta para archivo'); ?>
 
             <?= $form->field($model, 'nuri')->textInput(['maxlength' => true, 'readonly'=>true, 'value'=>$model->isNewRecord ? $seguimientos->codigo : $model->nuri]) ?>
 
             <?= $form->field($model, 'acciones')->textInput(['maxlength' => true])->textarea(['rows' => 2]) ?>
 
-            <?= $form->field($model, 'nombre_carpeta')->hiddenInput(['value' => $id_carpeta])->label(false) ?>
+            <?php //= $form->field($model, 'nombre_carpeta')->hiddenInput(['value' => $id_carpeta])->label(false) ?>
 
             <?php //= $form->field($model, 'fecha_archivo')->textInput() ?>
             <?= $form->field($model, 'fecha_archivo')->textInput()->widget(DatePicker::classname(), [
@@ -94,7 +118,7 @@ $this->params['breadcrumbs'][] = 'Archivar NUR/NURI '. $seguimientos->codigo;
             <?php //= $form->field($model, 'fk_area')->textInput() ?>
 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? "<span class='glyphicon glyphicon-floppy-disk'></span> Archivar NUR/NURI" : "<span class='glyphicon glyphicon-floppy-disk'></span> Modificar Archivo", ['class' => 'btn btn-primary', 'id'=>'mybotonsave2' ]) ?>
+                <?= Html::submitButton($model->isNewRecord ? "<span class='glyphicon glyphicon-floppy-disk'></span> Archivar Hoja de Ruta" : "<span class='glyphicon glyphicon-floppy-disk'></span> Modificar Archivo", ['class' => 'btn btn-primary', 'id'=>'mybotonsave2' ]) ?>
                 <?=Html::a("<i class='glyphicon glyphicon-ban-circle'></i> <span style='font-size:9pt;'> Cancelar</span>", ['seguimientos/pendientesoficiales'], ['class' => 'btn btn-danger']); ?>
             </div>
 
@@ -105,7 +129,7 @@ $this->params['breadcrumbs'][] = 'Archivar NUR/NURI '. $seguimientos->codigo;
     <div class="col-md-4" >
         
         <center>
-            		<b><u>NUR/NURI</u></b><br>
+            		<b><u>Hoja de Ruta</u></b><br>
             		<b style="font-size:22pt;" ><?=$seguimientos->codigo?></b><br>
             		<?php 
             			if ($seguimientos->oficial==1) {

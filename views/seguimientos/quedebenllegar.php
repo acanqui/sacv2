@@ -72,7 +72,8 @@ if (Yii::$app->session->getFlash('error')){
     <div class="col-md-6">
         <div class="card-body">
           <h5 style="color:#0B4C5F;" ><i class="icon fa fa-envelope-o" style="font-size:30pt;" ></i>&nbsp;&nbsp;&nbsp;
-              <b><u style="font-size: 18pt;">Tr&aacute;mites que deben llegar (Recepci&oacute;n)</u></b>
+              <!--<b><u style="font-size: 18pt;">Tr&aacute;mites que deben llegar (Recepci&oacute;n)</u></b>-->
+              <b><u style="font-size: 18pt;">Bandeja de entrada</u></b>
           </h5>
         </div>
     </div>
@@ -165,13 +166,27 @@ if (Yii::$app->session->getFlash('error')){
             //'codigo',
             
             [
-                'label'=>'NUR/NURI',
+                //'label'=>'NUR/NURI',
+                  'label'=>'Hoja de Ruta',
                 'attribute'=>'codigo',
-                //'value'=>'codigo',
-                //'value'=>'$data->getMostrarCodigo()',
-                'value' => function ($model) {
+                /*'value' => function ($model) {
                         return $model->getMostrarCodigo($model->oficial, $model->codigo, $model->numero_copia)." ".$model->getVerNuriAgrupado($model->codigo);
-                   },
+                   },*/
+                    'value' => function ($model) {
+                        // 1. Obtenemos el texto de la Hoja de Ruta que ya tenías
+                        $textoCodigo = $model->getMostrarCodigo($model->oficial, $model->codigo, $model->numero_copia) . " " . $model->getVerNuriAgrupado($model->codigo);
+
+                        // 2. Generamos la URL usando tu ejemplo exacto
+                        $url = yii\helpers\Url::to(['seguimientos/seguimientonuri', 'nuri' => $model->codigo]);
+
+                        // 3. Devolvemos el texto convertido en enlace que abre en una nueva pestaña
+                        return yii\helpers\Html::a($textoCodigo, $url, [
+                                'title' => 'Ver Seguimiento de Hoja de Ruta',
+                                'target' => '_blank',
+                                'style' => 'color: inherit; text-decoration: none;',
+                                'data-pjax' => '0' // Opcional, por si usas Pjax en tu GridView para evitar conflictos
+                        ]);
+                    },
                 'format'=>'html',
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1;'],
                 'headerOptions'=>['style'=>'color:black;'],
@@ -238,7 +253,7 @@ if (Yii::$app->session->getFlash('error')){
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1; text-align: center; width:180px;'],        
             ],
             //'fk_accion',
-            [
+            /*[
                 'label'=>'Accion/Tipo',
                 'attribute'=>'fk_accion',
                 'value' => function ($model) {
@@ -258,7 +273,7 @@ if (Yii::$app->session->getFlash('error')){
                 'format'=>'html',
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1; font-size:9pt;'],
                 'headerOptions'=>['style'=>'color:black;'],
-            ],            
+            ],*/            
             
             //'fecha_derivacion',
             //'hora_derivacion',

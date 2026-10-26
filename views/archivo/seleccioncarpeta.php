@@ -110,10 +110,13 @@ $i++;
             <figure class="snip1578" style="background:#D0DBE6; color:white;  max-width: 270px;">
                 <!--<span class="fa fa-folder-open-o" alt="profile-sample4" style="font-size:30pt; text-align: right;"></span>-->
                       <figcaption style="width: 290px;">
-                          
-                        <center>
-                          <h3 style="font-size: 14.5pt; color:black;"><li class="fa fa-folder-open-o" style="font-size:15pt;"></li> <?=$row['nombre_carpeta']?></h3>
-                        </center>    
+
+                          <h3 style="font-size: 12.5pt; color:black;"><li class="fa fa-folder-open-o" style="font-size:15pt;"></li> <?=$row['nombre_carpeta']?></h3>
+
+                          <!-- Tu div posicionado abajo a la derecha -->
+                          <div style="position: absolute; bottom: 5px; right: 30px; font-size: 6.5pt; color: black; text-align: right;">
+                              Gesti&oacute;n: <?=$row['gestion']?>
+                          </div>
                       </figcaption>
             </figure>
         </a>

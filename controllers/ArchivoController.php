@@ -97,7 +97,7 @@ class ArchivoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreatearchivo($id_seguimiento, $id_carpeta)
+    /*public function actionCreatearchivo($id_seguimiento, $id_carpeta)
     {
         $model = new Archivo();
 
@@ -150,6 +150,64 @@ class ArchivoController extends Controller
         return $this->render('createarchivo', [
             'model' => $model,
             'id_carpeta' => $id_carpeta,
+            'seguimientos'=> Seguimientos::findOne($id_seguimiento),
+        ]);
+    }*/
+
+
+    public function actionCreatearchivo($id_seguimiento)
+    {
+        $model = new Archivo();
+
+        if ($model->load(Yii::$app->request->post()) ) {
+
+            $model->gestion=date('Y');
+            $model->fecha_registro=date('Y-m-d');
+            $model->hora_registro=date('H:i:s');
+
+            $model->fk_usuario=Yii::$app->user->identity->id_usuario;
+            $model->fk_area=Yii::$app->user->identity->fk_area;
+            $model->fk_regional=Yii::$app->user->identity->fk_regional;
+            $model->terminado=0;
+            $model->activo=1;
+
+            $id_carpeta=$_POST['Archivo']['fk_carpeta_archivo'];
+            $oficial=$_POST['Archivo']['oficial'];
+            $carpetas = Carpetaarchivo::findOne($id_carpeta);
+            $model->nombre_carpeta=$carpetas->nombre_carpeta;
+            $model->fk_carpeta_archivo=$id_carpeta;
+
+
+            if($model->save()){
+
+                // codigo para cambiar el estado del seguimiento en la tabla seguimiento
+                $seguimiento=Seguimientos::findOne($id_seguimiento);
+
+                if($oficial==1){
+                    $seguimiento->fk_estado=5;
+                }
+                else{
+                    $seguimiento->fk_estado=6;
+                }
+
+
+                if($seguimiento->save()){
+                    Yii::$app->session->setFlash('success', "El trámite <b>".$model->nuri."</b>, se archivó correctamente.");
+                    //return $this->redirect(['view', 'id' => $model->id_archivo]);
+                    return $this->redirect(['index']);
+                }
+                else{
+                    Yii::$app->session->setFlash('error', "Error al archivar el tramite, comuniquese con el administrador del Sistema S.A.C.");
+                    print_r($model->getAttributes());
+                    print_r($model->getErrors());
+                    var_dump ($model->getErrors()); die();
+                }
+            }
+        }
+
+        return $this->render('createarchivo', [
+            'model' => $model,
+            'id_usuario' => Yii::$app->user->identity->id_usuario,
             'seguimientos'=> Seguimientos::findOne($id_seguimiento),
         ]);
     }

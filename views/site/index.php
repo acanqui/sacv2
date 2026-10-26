@@ -264,7 +264,7 @@ $this->registerJs($script);
                                             <div class="menu-info">
                                                 <h4 class="control-sidebar-subheading"><b>Actas de Recepci&oacute;n</b></h4>
 
-                                                <p>Reporte de NUR/NURIs derivados</p>  
+                                                <p>Reporte de Hojas de Ruta derivadas</p>
                                             </div>
                                         </a>
                                     </li>
@@ -278,7 +278,7 @@ $this->registerJs($script);
                                             <div class="menu-info">
                                                 <h4 class="control-sidebar-subheading"><b>Actas de Recepci&oacute;n general</b></h4>
 
-                                                <p>Reporte de NUR/NURIs derivados</p>  
+                                                <p>Reporte de Hojas de Ruta derivadas</p>
                                             </div>
                                         </a>
                                     </li>
@@ -300,9 +300,9 @@ $this->registerJs($script);
                                             <i class="menu-icon fa fa-edit bg-red"></i>
 
                                             <div class="menu-info">
-                                                <h4 class="control-sidebar-subheading"><b>Documentos sin NURI</b></h4>
+                                                <h4 class="control-sidebar-subheading"><b>Cites sin Hojas de Ruta</b></h4>
 
-                                                <p>Lista de documentos sin NURI</p>
+                                                <p>Lista de Cites sin Hojas de Ruta</p>
                                             </div>
                                         </a>
                                     </li>
@@ -312,9 +312,9 @@ $this->registerJs($script);
                                             <i class="menu-icon fa fa-exchange bg-yellow"></i>
 
                                             <div class="menu-info">
-                                                <h4 class="control-sidebar-subheading"><b>Desagrupar NURI(s)</b></h4>
+                                                <h4 class="control-sidebar-subheading"><b>Desagrupar Hojas de Ruta</b></h4>
 
-                                                <p>Desagrupar NURIs agrupados</p>
+                                                <p>Desagrupar Hojas de Ruta agrupadas</p>
                                             </div>
                                         </a>
                                     </li>
@@ -350,7 +350,7 @@ $this->registerJs($script);
 
                                             <div class="menu-info">
                                                 <h4 class="control-sidebar-subheading"><b>Resumen de Pendientes</b></h4>
-                                                <p>Documentos generados en total</p>
+                                                <p>Cites generados en total</p>
                                             </div>
                                         </a>
                                     </li>
@@ -374,7 +374,7 @@ $this->registerJs($script);
                                             <div class="menu-info">
                                                 <h4 class="control-sidebar-subheading"><b>Tr&aacute;mites sin Derivar</b></h4>
 
-                                                <p>NUR/NURI sin derivar o confirmar por sistema</p>  
+                                                <p>Hojas de Ruta sin derivar o confirmar <br>por sistema</p>
                                             </div>
                                         </a>
                                     </li>

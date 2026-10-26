@@ -80,7 +80,8 @@ SimpleLoading::widget();
     <div class="col-md-6">
         <div class="card-body">
           <h5 style="color:#0B4C5F;" ><i class="glyphicon glyphicon-folder-open" style="font-size:30pt;" ></i>&nbsp;&nbsp;&nbsp;
-              <b><u style="font-size: 18pt;">Tr&aacute;mites Oficiales Pendientes</u></b>
+              <!--<b><u style="font-size: 18pt;">Tr&aacute;mites Oficiales Pendientes</u></b>-->
+              <b><u style="font-size: 18pt;">Bandeja de Pendientes (Originales)</u></b>
           </h5>
         </div>
     </div>
@@ -146,13 +147,29 @@ SimpleLoading::widget();
             //'codigo',
             
             [
-                'label'=>'NUR/NURI',
+                //'label'=>'NUR/NURI',
+                'label'=>'Hoja de Ruta',
                 'attribute'=>'codigo',
-                //'value'=>'codigo',
-                //'value'=>'$data->getMostrarCodigo()',
-                'value' => function ($model) {
+                /*'value' => function ($model) {
                         return $model->getMostrarCodigo($model->oficial, $model->codigo, $model->numero_copia)." ".$model->getVerNuriAgrupado($model->codigo);
-                   },
+                   }, */
+
+                    'value' => function ($model) {
+                        // 1. Obtenemos el texto de la Hoja de Ruta que ya tenías
+                        $textoCodigo = $model->getMostrarCodigo($model->oficial, $model->codigo, $model->numero_copia) . " " . $model->getVerNuriAgrupado($model->codigo);
+
+                        // 2. Generamos la URL usando tu ejemplo exacto
+                        $url = yii\helpers\Url::to(['seguimientos/seguimientonuri', 'nuri' => $model->codigo]);
+
+                        // 3. Devolvemos el texto convertido en enlace que abre en una nueva pestaña
+                        return yii\helpers\Html::a($textoCodigo, $url, [
+                                'title' => 'Ver Seguimiento de Hoja de Ruta',
+                                'target' => '_blank',
+                                'style' => 'color: inherit; text-decoration: none;',
+                                'data-pjax' => '0' // Opcional, por si usas Pjax en tu GridView para evitar conflictos
+                        ]);
+                    },
+
                 'format'=>'html',
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1;'],
                 'headerOptions'=>['style'=>'color:black;'],
@@ -223,7 +240,7 @@ SimpleLoading::widget();
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1; text-align: center; width:180px; font-size: 9.5pt; '],        
             ],
             
-            [
+            /*[
                 'label'=>'Accion/Tipo',
                 'attribute'=>'fk_accion',
                 'value' => function ($model) {
@@ -243,7 +260,7 @@ SimpleLoading::widget();
                 'format'=>'html',
                 'contentOptions' => ['style' => 'border: 1px solid #BEBFC1; font-size:9pt;'],
                 'headerOptions'=>['style'=>'color:black;'],
-            ],            
+            ],*/            
                         
             
             //'fecha_derivacion',
@@ -486,7 +503,8 @@ SimpleLoading::widget();
                     'urlCreator'=>function($action, $model, $key, $index){
                         
                             if($action=='archivar'){
-                               return yii\helpers\Url::to(['archivo/seleccioncarpeta', 'id_seguimiento'=>$key]); 
+                               //return yii\helpers\Url::to(['archivo/seleccioncarpeta', 'id_seguimiento'=>$key]);
+                               return yii\helpers\Url::to(['archivo/createarchivo', 'id_seguimiento'=>$key]);
                             }
                             if($action=='agrupar'){
                                return yii\helpers\Url::to(['agrupartramites', 'id'=>$key]); 
